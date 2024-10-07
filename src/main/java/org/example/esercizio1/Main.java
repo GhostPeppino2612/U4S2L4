@@ -1,8 +1,12 @@
-package esercizio1;
+package org.example.esercizio1;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 
 public class Main {
     public static void main(String[] args) {
@@ -48,5 +52,23 @@ public class Main {
         LocalDate date2 = LocalDate.parse("2021-04-01");
 
         List<Product> lista2 = listaOrdini.stream().filter(order -> order.getCustomer().getTier() == 2).filter(order -> order.getOrderDate().isAfter(date1) && order.getOrderDate().isBefore(date2)).flatMap(order -> order.getProducts().stream()).toList();
+
+        Map<Customer, List<Order>> mappa = listaOrdini.stream().collect(Collectors.groupingBy(Order::getCustomer));
+        mappa.forEach((cliente, ordini) -> {
+            System.out.println("Cliente: " + cliente.getName());
+            ordini.forEach(order -> System.out.println("Ordine: " + order.getId()));
+        });
+
+        Map<Customer, Double>  mappa1 = listaOrdini.stream().collect(Collectors.groupingBy(Order::getCustomer, Collectors.summingDouble(order -> order.getProducts().stream().mapToDouble(Product::getPrice).sum())));
+        mappa1.forEach((cliente, totale) -> {
+            System.out.println("Cliente: " + cliente.getName() + ", Totale Vendite: " + totale);
+        });
+
+        List<Product> lista3 = listaProdotti.stream().sorted(Comparator.comparingDouble(Product::getPrice).reversed()).toList();
+
+      lista3.forEach(product -> System.out.println("--Prodotto: " + product.getName() + " " + "--Costo: " + product.getPrice()));
+
+      double num = listaOrdini.stream().collect(Collectors.averagingDouble(order -> order.getProducts().stream().mapToDouble(Product::getPrice).sum()));
+        System.out.println("La media è: " + num);
     }
 }

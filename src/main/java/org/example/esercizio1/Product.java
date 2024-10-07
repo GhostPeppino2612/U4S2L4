@@ -1,4 +1,4 @@
-package esercizio1;
+package org.example.esercizio1;
 
 public class Product {
     private long id;

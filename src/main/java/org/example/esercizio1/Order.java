@@ -1,4 +1,4 @@
-package esercizio1;
+package org.example.esercizio1;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -66,5 +66,17 @@ public class Order {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", status='" + status + '\'' +
+                ", orderDate=" + orderDate +
+                ", deliveryDate=" + deliveryDate +
+                ", products=" + products +
+                ", customer=" + customer +
+                '}';
     }
 }
